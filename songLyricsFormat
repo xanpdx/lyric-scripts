@@ -1,0 +1,28 @@
+#!/bin/bash
+ setterm -cursor off
+COLUMNS=$(tput cols) 
+while true
+do
+STR=$(/bin/bash ./songLyrics spotify)
+IFS=$'\n:' read -d '' -r -a array <<< "$STR"
+#echo "$STR"
+#echo ${#array[@]}
+
+echo_c()
+{
+  w=$(stty size | cut -d" " -f2)       # width of the terminal
+  l=${#1}                              # length of the string
+  printf "%"$((l+(w-l)/2))"s\n" "$1"   # print string padded to proper width (%Ws)
+}
+
+bold=$(tput bold)
+echo -e "\n\n\n"
+red=$'\e[1;36m'
+grn=$'\e[0;36m'
+mag=$'\e[0;36m'
+echo "${bold}${red}"
+echo_c "${array[3]}"
+echo_c "${array[4]}"
+echo_c "${array[5]}"
+sleep 30
+done
